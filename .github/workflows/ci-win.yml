@@ -3,10 +3,10 @@ name: Build Manuspect App
 on:
   push:
     branches:
-      - main
+      - ci-win
   pull_request:
     branches:
-      - main
+      - ci-win
 
 jobs:
   build:
