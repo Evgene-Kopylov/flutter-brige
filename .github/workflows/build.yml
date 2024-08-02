@@ -44,6 +44,9 @@ jobs:
           some/other/dependencies
         key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
 
+    
+    - name: checkout repo
+      uses: actions/checkout@v4
 
 
     - name: Build the Flutter app
