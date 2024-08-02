@@ -26,6 +26,8 @@ jobs:
           target
           ${{ env.HOME }}/.pub-cache
         key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-deps-
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -45,7 +47,7 @@ jobs:
           ~/.cargo/git
           target
           ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}-${{ github.run_id }}
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
