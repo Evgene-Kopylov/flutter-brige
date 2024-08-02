@@ -35,11 +35,7 @@ jobs:
     - name: Install Flutter Rust Bridge Codegen
       run: cargo install flutter_rust_bridge_codegen
 
-    - name: Build the Flutter app
-      run: flutter build windows --release
-      working-directory: my_app
-
-    - name: Save Primes
+    - name: WIP Save Primes
       id: cache-primes-save
       uses: actions/cache/save@v4
       with:
@@ -47,3 +43,18 @@ jobs:
           path/to/dependencies
           some/other/dependencies
         key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+
+
+
+    - name: Build the Flutter app
+      run: flutter build windows --release
+      working-directory: my_app
+
+    # - name: Save Primes
+    #   id: cache-primes-save
+    #   uses: actions/cache/save@v4
+    #   with:
+    #     path: |
+    #       path/to/dependencies
+    #       some/other/dependencies
+    #     key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
