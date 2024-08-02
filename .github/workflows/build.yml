@@ -18,7 +18,7 @@ jobs:
 
     - name: Restore cached Rust and Flutter dependencies
       id: cache-deps-restore
-      uses: actions/cache@v4
+      uses: actions/cache/restore@v4
       with:
         path: |
           ~/.cargo/registry
@@ -38,7 +38,7 @@ jobs:
 
     - name: Save Rust and Flutter dependencies
       id: cache-deps-save
-      uses: actions/cache@v4
+      uses: actions/cache/save@v4
       with:
         path: |
           ~/.cargo/registry
