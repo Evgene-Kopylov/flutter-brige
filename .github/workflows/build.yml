@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      VCPKG_ROOT: C:/vcpkg
+      VCPKG_ROOT: C:\vcpkg
 
     steps:
     - name: Checkout repository
@@ -44,7 +44,7 @@ jobs:
 
     - name: Set environment variables
       run: |
-        echo "VCPKG_ROOT=C:/vcpkg" >> $GITHUB_ENV
+        echo "VCPKG_ROOT=C:\vcpkg" >> $GITHUB_ENV
         echo "PATH=$VCPKG_ROOT;$PATH" >> $GITHUB_ENV
 
     - name: Install vcpkg dependencies
@@ -57,26 +57,26 @@ jobs:
 
     - name: Install Flutter dependencies
       run: flutter pub get
-      working-directory: manuspect/manuspect_app
+      working-directory: my_app
 
     - name: Generate database.g.dart
       run: dart run build_runner build
-      working-directory: manuspect/manuspect_app
+      working-directory: my_app
 
     - name: Generate .frb files
       run: flutter_rust_bridge_codegen generate
-      working-directory: manuspect/manuspect_app
+      working-directory: my_app
 
     - name: Create .env file
       run: echo "API_URL=http://your_api_url/api/v1/" > .env
-      working-directory: manuspect/manuspect_app
+      working-directory: my_app
 
     - name: Build the Flutter app
       run: flutter build windows --release
-      working-directory: manuspect/manuspect_app
+      working-directory: my_app
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: manuspect-app-windows
-        path: manuspect/manuspect_app/build/windows/runner/Release
+        path: my_app\build\windows\runner\Release
