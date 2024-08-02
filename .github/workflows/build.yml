@@ -12,19 +12,20 @@ jobs:
   build:
     runs-on: windows-latest
 
-    env:
-      VCPKG_ROOT: C:\vcpkg
-
     steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
 
-    - name: Restore cached Primes
-      id: cache-primes-restore
-      uses: actions/cache/restore@v4
+    - name: Restore cached Rust and Flutter dependencies
+      id: cache-deps-restore
+      uses: actions/cache@v4
       with:
         path: |
-          path/to/dependencies
-          some/other/dependencies
-        key: ${{ runner.os }}-primes
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+          ${{ env.HOME }}/.pub-cache
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -35,29 +36,23 @@ jobs:
     - name: Install Flutter Rust Bridge Codegen
       run: cargo install flutter_rust_bridge_codegen
 
-    - name: WIP Save Primes
-      id: cache-primes-save
-      uses: actions/cache/save@v4
+    - name: Save Rust and Flutter dependencies
+      id: cache-deps-save
+      uses: actions/cache@v4
       with:
         path: |
-          path/to/dependencies
-          some/other/dependencies
-        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+          ${{ env.HOME }}/.pub-cache
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
 
-    
-    - name: checkout repo
-      uses: actions/checkout@v4
-
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+        flutter-version: 3.22.3
 
     - name: Build the Flutter app
       run: flutter build windows --release
       working-directory: my_app
-
-    # - name: Save Primes
-    #   id: cache-primes-save
-    #   uses: actions/cache/save@v4
-    #   with:
-    #     path: |
-    #       path/to/dependencies
-    #       some/other/dependencies
-    #     key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
