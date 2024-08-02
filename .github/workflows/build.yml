@@ -16,7 +16,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - name: Restore cached Rust and Flutter dependencies
+    - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
       uses: actions/cache/restore@v4
       with:
