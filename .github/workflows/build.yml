@@ -16,13 +16,15 @@ jobs:
       VCPKG_ROOT: C:\vcpkg
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
+    - name: Restore cached Primes
+      id: cache-primes-restore
+      uses: actions/cache/restore@v4
       with:
-        flutter-version: '3.22.2'
+        path: |
+          path/to/dependencies
+          some/other/dependencies
+        key: ${{ runner.os }}-primes
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -30,53 +32,18 @@ jobs:
         toolchain: stable
         override: true
 
-    - name: Install Rust toolchain
-      run: rustup default 1.79.0
-
     - name: Install Flutter Rust Bridge Codegen
       run: cargo install flutter_rust_bridge_codegen
-
-    - name: Install vcpkg
-      run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
-
-    - name: Set environment variables
-      run: |
-        echo "VCPKG_ROOT=C:\vcpkg" >> $GITHUB_ENV
-        echo "PATH=$VCPKG_ROOT;$PATH" >> $GITHUB_ENV
-
-    - name: Install vcpkg dependencies
-      run: |
-        $env:VCPKG_ROOT = "C:\vcpkg"
-        $env:PATH = "$env:VCPKG_ROOT;$env:PATH"
-        vcpkg install libvpx:x64-windows-static
-        vcpkg install aom:x64-windows-static
-        vcpkg install libyuv:x64-windows-static
-
-    - name: Install Flutter dependencies
-      run: flutter pub get
-      working-directory: my_app
-
-    - name: Generate database.g.dart
-      run: dart run build_runner build
-      working-directory: my_app
-
-    - name: Generate .frb files
-      run: flutter_rust_bridge_codegen generate
-      working-directory: my_app
-
-    - name: Create .env file
-      run: echo "API_URL=http://your_api_url/api/v1/" > .env
-      working-directory: my_app
 
     - name: Build the Flutter app
       run: flutter build windows --release
       working-directory: my_app
 
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v3
+    - name: Save Primes
+      id: cache-primes-save
+      uses: actions/cache/save@v4
       with:
-        name: manuspect-app-windows
-        path: my_app\build\windows\runner\Release
+        path: |
+          path/to/dependencies
+          some/other/dependencies
+        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
