@@ -51,7 +51,7 @@ jobs:
           target/
           ~/.flutter
           ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}-${{ github.run_id }}
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
