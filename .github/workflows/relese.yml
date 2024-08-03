@@ -43,12 +43,10 @@ jobs:
         git push origin $env:RELEASE_TAG
   
   
-    - name: Compress files into ZIP archive
+    - name: Create a zip file of the folder
       run: |
-        $source = "my_app/rust"
-        $destination = "release-$env:TAG_NAME.zip"
-        Compress-Archive -Path $source -DestinationPath $destination
-        echo "ARCHIVE_NAME=$destination" >> $env:GITHUB_ENV
+        Compress-Archive -Path my_app/rust* -DestinationPath build\windows\x64\runner\Release\manuspect_app.zip
+  
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -56,6 +54,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ env.ARCHIVE_NAME }}
-        asset_name: ${{ env.ARCHIVE_NAME }}
+        asset_path: build/windows/x64/runner/Release/manuspect_app.zip
+        asset_name: manuspect_app.zip
         asset_content_type: application/zip
