@@ -48,8 +48,8 @@ jobs:
         flutter-version: 3.22.3
 
 
-    - name: flutter pub get
-      run: flutter pub get
+    # - name: flutter pub get
+    #   run: flutter pub get
 
 
     - name: Bridge generate
