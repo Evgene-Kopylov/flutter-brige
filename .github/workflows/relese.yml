@@ -27,13 +27,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-
-    - name: Set up Git
+  
+    - name: Create a zip file of the folder
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}\manuspect_app.zip
 
 
+        - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  
+  
     - name: Create unique tag
       id: create_tag
       run: |
@@ -42,11 +47,18 @@ jobs:
         echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
         git tag $env:RELEASE_TAG
         git push origin $env:RELEASE_TAG
-  
-  
-    - name: Create a zip file of the folder
-      run: |
-        Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}\manuspect_app.zip
+
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        release_name: ${{ env.RELEASE_VERSION }}-${{ env.TAG_NAME }}
+        draft: false
+        prerelease: false
   
 
     - name: Upload Release Asset
