@@ -18,11 +18,8 @@ jobs:
 
     # >>
 
-    - name: cd
-      run: cd
-
     - name: HOME
-      run: echo ${{ env.HOME }}
+      run: dir ${{ env.HOME }}
 
     - name: List Cargo bin directory
       run: dir C:\Users\runneradmin\.cargo\bin /s
