@@ -75,10 +75,14 @@ jobs:
     # - name: Create database.g.dart
     #   run: dart run build_runner build
 
+    - run: dir ${{ env.HOME }}
+    
+
     - name: Bridge generate
       working-directory: my_app
       run: flutter_rust_bridge_codegen generate
 
+    - run: dir ${{ env.HOME }}
 
     # - name: Build the Flutter app
     #   run: flutter build windows --release
