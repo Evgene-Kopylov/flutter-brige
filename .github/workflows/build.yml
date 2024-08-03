@@ -16,6 +16,35 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
+    # >>
+
+    - name: cd
+      run: cd
+
+    - name: HOME
+      run: echo ${{ env.HOME }}
+
+    - name: List Cargo bin directory
+      run: dir C:\Users\runneradmin\.cargo\bin /s
+
+    - name: List Cargo registry directory
+      run: dir C:\Users\runneradmin\.cargo\registry /s
+
+    - name: List Cargo git directory
+      run: dir C:\Users\runneradmin\.cargo\git /s
+
+    - name: List target directory
+      run: dir C:\Users\runneradmin\target /s
+
+    - name: List Flutter directory
+      run: dir C:\Users\runneradmin\.flutter /s
+
+    - name: List pub-cache directory
+      run: dir C:\Users\runneradmin\.pub-cache /s
+
+    # <<
+
+
     - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
       uses: actions/cache/restore@v4
@@ -57,9 +86,10 @@ jobs:
       run: flutter_rust_bridge_codegen generate
 
 
-    # - name: Build the Flutter app
-    #   run: flutter build windows --release
-    #   working-directory: my_app
+    - name: Build the Flutter app
+      run: flutter build windows --release
+      working-directory: my_app
+
 
     - name: Save Rust and Flutter dependencies
       id: cache-deps-save
