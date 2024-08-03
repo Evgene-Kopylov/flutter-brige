@@ -16,20 +16,20 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - name: Restore cached Rust and Flutter  dependencies
-      id: cache-deps-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry
-          ~/.cargo/git
-          target/
-          ~/.flutter
-          ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-deps-
+    # - name: Restore cached Rust and Flutter  dependencies
+    #   id: cache-deps-restore
+    #   uses: actions/cache/restore@v4
+    #   with:
+    #     path: |
+    #       ~/.cargo/bin/
+    #       ~/.cargo/registry
+    #       ~/.cargo/git
+    #       target/
+    #       ~/.flutter
+    #       ${{ env.HOME }}/.pub-cache
+    #     key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-deps-
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -61,15 +61,15 @@ jobs:
     #   run: flutter build windows --release
     #   working-directory: my_app
 
-    - name: Save Rust and Flutter dependencies
-      id: cache-deps-save
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry
-          ~/.cargo/git
-          target/
-          ~/.flutter
-          ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+    # - name: Save Rust and Flutter dependencies
+    #   id: cache-deps-save
+    #   uses: actions/cache/save@v4
+    #   with:
+    #     path: |
+    #       ~/.cargo/bin/
+    #       ~/.cargo/registry
+    #       ~/.cargo/git
+    #       target/
+    #       ~/.flutter
+    #       ${{ env.HOME }}/.pub-cache
+    #     key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
