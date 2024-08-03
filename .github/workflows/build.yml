@@ -3,10 +3,10 @@ name: Build Manuspect App
 on:
   push:
     branches:
-      - build
+      - build-2
   pull_request:
     branches:
-      - build
+      - build-2
 
 jobs:
   build:
@@ -15,31 +15,6 @@ jobs:
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
-
-    - name: Restore cached Rust and Flutter  dependencies
-      id: cache-deps-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry
-          ~/.cargo/git
-          target/
-          ~/.flutter
-          ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-deps-
-
-    - name: Set up Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-
-    - name: Install Flutter Rust Bridge Codegen
-      run: cargo install flutter_rust_bridge_codegen
-
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
@@ -51,6 +26,46 @@ jobs:
       working-directory: my_app
       run: flutter pub get
 
+    - name: Create database.g.dart
+      run: dart run build_runner build
+
+    # - name: Restore cached Rust and Flutter  dependencies
+    #   id: cache-deps-restore
+    #   uses: actions/cache/restore@v4
+    #   with:
+    #     path: |
+    #       ~/.cargo/bin/
+    #       ~/.cargo/registry
+    #       ~/.cargo/git
+    #       target/
+    #       ~/.flutter
+    #       ${{ env.HOME }}/.pub-cache
+    #     key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-deps-
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+
+    - name: Install Flutter Rust Bridge Codegen
+      run: cargo install flutter_rust_bridge_codegen
+
+
+    # - name: Set up Flutter
+    #   uses: subosito/flutter-action@v2
+    #   with:
+    #     channel: stable
+    #     flutter-version: 3.22.3
+
+    # - name: flutter pub get
+    #   working-directory: my_app
+    #   run: flutter pub get
+
+    # - name: Create database.g.dart
+    #   run: dart run build_runner build
 
     - name: Bridge generate
       working-directory: my_app
