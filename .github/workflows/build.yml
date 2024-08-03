@@ -16,7 +16,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - run: cd flutter-brige/my_app
+    - run: cd my_app
 
     - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
@@ -55,7 +55,6 @@ jobs:
 
     - name: Bridge generate
       run: flutter_rust_bridge_codegen generate
-
 
 
     # - name: Build the Flutter app
