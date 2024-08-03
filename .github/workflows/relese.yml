@@ -18,7 +18,9 @@ jobs:
 
     env:
       VCPKG_ROOT: C:\vcpkg
-      TAG: v0.1
+      TAG_NAME: nightly
+      RELEASE_VERSION: 0.1.0
+
 
     steps:
     - name: Checkout repository
@@ -35,7 +37,7 @@ jobs:
       id: create_tag
       run: |
         $date = Get-Date -Format "yyyyMMddHHmmss"
-        $tagName = "release-$date"
+        $tagName = "${{ env.RELEASE_VERSION }}-${{ env.TAG_NAME }}-$date"
         echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
         git tag $env:RELEASE_TAG
         git push origin $env:RELEASE_TAG
