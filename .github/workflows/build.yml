@@ -16,7 +16,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - run: cd ${{ github.repository }}/my_app
+    - run: cd flutter-brige/my_app
 
     - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
