@@ -14,6 +14,7 @@ jobs:
 
     env:
       VCPKG_ROOT: C:\vcpkg
+      
 
     steps:
     - name: Checkout repository
@@ -75,11 +76,14 @@ jobs:
       run: flutter build windows --release
       working-directory: my_app
 
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: manuspect-app-windows
-        path: my_app\build\windows\runner\Release
+    - name: Create unique tag
+      id: create_tag
+      run: |
+        $date = Get-Date -Format "yyyyMMddHHmmss"
+        $tagName = "build-${{ env.RELEASE_VERSION }}-$date"
+        echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
+        git tag -a $env:RELEASE_TAG -m "${{}}"
+        git push origin $env:RELEASE_TAG
 
 
     - name: Create Release
@@ -88,8 +92,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ env.RELEASE_TAG }}
+        release_name: ${{ env.RELEASE_VERSION }}-${{ env.TAG_NAME }}
         draft: false
         prerelease: false
 
