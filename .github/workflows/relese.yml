@@ -37,7 +37,7 @@ jobs:
       id: create_tag
       run: |
         $date = Get-Date -Format "yyyyMMddHHmmss"
-        $tagName = "${{ env.RELEASE_VERSION }}-$date-${{ env.TAG_NAME }}"
+        $tagName = "build-${{ env.RELEASE_VERSION }}-$date"
         echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
         git tag $env:RELEASE_TAG
         git push origin $env:RELEASE_TAG
