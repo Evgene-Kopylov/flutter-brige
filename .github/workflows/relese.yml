@@ -33,10 +33,10 @@ jobs:
         Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}\manuspect_app.zip
 
 
-        - name: Set up Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
   
   
     - name: Create unique tag
