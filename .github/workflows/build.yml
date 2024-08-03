@@ -16,6 +16,8 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
+    - run: dir ${{ env.HOME }}
+
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -25,6 +27,11 @@ jobs:
     - name: flutter pub get
       working-directory: my_app
       run: flutter pub get
+
+    - run: dir C:\Users\runneradmin\AppData\Local\Pub\Cache
+    - run: dir ~/.
+    - run: dir ${{ env.HOME }}
+    - run: dir .
 
     - name: Create database.g.dart
       working-directory: my_app
