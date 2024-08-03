@@ -27,6 +27,7 @@ jobs:
       run: flutter pub get
 
     - name: Create database.g.dart
+      working-directory: my_app
       run: dart run build_runner build
 
     # - name: Restore cached Rust and Flutter  dependencies
