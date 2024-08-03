@@ -19,9 +19,11 @@ jobs:
 
     - name: HOME
       run: dir ${{ env.HOME }}
+      # D:\a\flutter-brige\flutter-brige
 
     - name: \~
       run: dir ~\.
+      # C:\Users\runneradmin
 
 
     # - name: Restore cached Rust and Flutter  dependencies
@@ -57,6 +59,8 @@ jobs:
     - name: c
       run: dir c:/
 
+    - name: target
+      run: dir target
 
 
 
@@ -69,6 +73,11 @@ jobs:
     - name: flutter pub get
       working-directory: my_app
       run: flutter pub get
+
+    
+    - name: pub-cache
+      run: dir ${{ env.HOME }}/.pub-cache
+
 
 
     - name: Bridge generate
