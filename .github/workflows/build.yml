@@ -16,46 +16,28 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    # >>
 
     - name: HOME
       run: dir ${{ env.HOME }}
 
-    - name: List Cargo bin directory
-      run: dir C:\Users\runneradmin\.cargo\bin /s
-
-    - name: List Cargo registry directory
-      run: dir C:\Users\runneradmin\.cargo\registry /s
-
-    - name: List Cargo git directory
-      run: dir C:\Users\runneradmin\.cargo\git /s
-
-    - name: List target directory
-      run: dir C:\Users\runneradmin\target /s
-
-    - name: List Flutter directory
-      run: dir C:\Users\runneradmin\.flutter /s
-
-    - name: List pub-cache directory
-      run: dir C:\Users\runneradmin\.pub-cache /s
-
-    # <<
+    - name: \~
+      run: dir ~\.
 
 
-    - name: Restore cached Rust and Flutter  dependencies
-      id: cache-deps-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry
-          ~/.cargo/git
-          target/
-          ~/.flutter
-          ${{ env.HOME }}/.pub-cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-deps-
+    # - name: Restore cached Rust and Flutter  dependencies
+    #   id: cache-deps-restore
+    #   uses: actions/cache/restore@v4
+    #   with:
+    #     path: |
+    #       ~/.cargo/bin/
+    #       ~/.cargo/registry
+    #       ~/.cargo/git
+    #       target/
+    #       ~/.flutter
+    #       ${{ env.HOME }}/.pub-cache
+    #     key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-deps-
 
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
@@ -65,6 +47,17 @@ jobs:
 
     - name: Install Flutter Rust Bridge Codegen
       run: cargo install flutter_rust_bridge_codegen
+
+    - name: cargo
+      run: dir ~\.cargo/
+
+    - name: cargo/registry
+      run: dir ~\.cargo/registry
+
+    - name: c
+      run: dir c:/
+
+
 
 
     - name: Set up Flutter
