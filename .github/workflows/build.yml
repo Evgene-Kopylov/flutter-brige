@@ -16,8 +16,6 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
 
-    - run: cd my_app
-
     - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
       uses: actions/cache/restore@v4
@@ -50,10 +48,12 @@ jobs:
         flutter-version: 3.22.3
 
     - name: flutter pub get
+      working-directory: my_app
       run: flutter pub get
 
 
     - name: Bridge generate
+      working-directory: my_app
       run: flutter_rust_bridge_codegen generate
 
 
