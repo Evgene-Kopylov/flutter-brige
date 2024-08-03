@@ -60,8 +60,7 @@ jobs:
       run: dir c:/
 
     - name: target
-      run: dir target
-
+      run: dir ~\.
 
 
     - name: Set up Flutter
