@@ -3,10 +3,10 @@ name: Build Manuspect App
 on:
   push:
     branches:
-      - build-1
+      - buil-1
   pull_request:
     branches:
-      - build-1
+      - buil-1
 
 jobs:
   build:
