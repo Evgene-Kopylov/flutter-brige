@@ -23,9 +23,8 @@ jobs:
     - name: Get current tag
       id: get_tag
       run: |
-        tag=$(git describe --tags --abbrev=0)
-        echo "::set-output name=TAG::$tag"
-
+        $tag = git describe --tags --abbrev=0
+        echo "TAG=$tag" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
     - name: Create Release
       id: create_release
