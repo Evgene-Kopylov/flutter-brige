@@ -1,0 +1,77 @@
+name: Build and Relese Manuspect App
+
+# чтобы запушить релиз
+permissions: write-all
+
+on:
+  # push:
+  #   branches:
+  #     - build-4
+  pull_request:
+    branches:
+      # - build-4
+      - staging
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    env:
+      VCPKG_ROOT: C:\vcpkg
+      TAG_NAME: nightly
+      RELEASE_VERSION: 0.1.0
+      RELEASE_PATH: my_app/rust
+      # RELEASE_PATH: build/windows/x64/runner/Release
+
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+  
+    - name: Create a zip file of the folder
+      run: |
+        Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}/manuspect_app.zip
+
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  
+  
+    - name: Create unique tag
+      id: create_tag
+      run: |
+        $date = Get-Date -Format "yyyyMMddHHmmss"
+        $tagName = "build-${{ env.RELEASE_VERSION }}-$date"
+        echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
+        git checkout -b temp-branch-$date
+        git tag $env:RELEASE_TAG
+        git push origin $env:RELEASE_TAG
+        git checkout -
+        git branch -D temp-branch-$date
+
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ env.RELEASE_TAG }}
+        release_name: ${{ env.RELEASE_VERSION }}-${{ env.TAG_NAME }}
+        draft: false
+        prerelease: false
+  
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ env.RELEASE_PATH }}/manuspect_app.zip
+        asset_name: manuspect_app.zip
+        asset_content_type: application/zip
