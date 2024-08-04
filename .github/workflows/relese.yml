@@ -30,6 +30,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+      
+    - name: Determine cache key
+      id: cache-key
+      run: |
+        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.lock') }}" >> $GITHUB_ENV
+
   
     - name: Restore cached Rust and Flutter  dependencies
       id: cache-deps-restore
@@ -43,7 +49,7 @@ jobs:
           rust/target/
           ~/.flutter
           ~/AppData/Local/Pub/Cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+        key: ${{ env.CACHE_KEY }}
         restore-keys: |
           ${{ runner.os }}-deps-
 
@@ -61,7 +67,7 @@ jobs:
           rust/target/
           ~/.flutter
           ~/AppData/Local/Pub/Cache
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+        key: ${{ env.CACHE_KEY }}
 
 
     - name: Create a zip file of the folder
