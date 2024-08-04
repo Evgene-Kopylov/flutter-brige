@@ -4,12 +4,12 @@ name: Build and Relese Manuspect App
 permissions: write-all
 
 on:
-  # push:
-  #   branches:
-  #     - build-4
+  push:
+    branches:
+      - build-4
   pull_request:
     branches:
-      # - build-4
+      - build-4
       - staging
 
 jobs:
@@ -22,7 +22,6 @@ jobs:
       TAG_NAME: nightly
       RELEASE_VERSION: 0.1.0
       RELEASE_PATH: my_app/rust
-      # RELEASE_PATH: build/windows/x64/runner/Release
 
 
     steps:
