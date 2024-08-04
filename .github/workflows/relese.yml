@@ -34,7 +34,7 @@ jobs:
     - name: Determine cache key
       id: cache-key
       run: |
-        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.lock') }}" >> $GITHUB_ENV
+        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.lock') }}" >> $env:GITHUB_ENV
         sleep 5
 
 
@@ -56,7 +56,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-deps-
 
-    # 
+    
     - name: Save Rust and Flutter dependencies
       id: cache-deps-save
       if: steps.cache-deps-restore.outputs.cache-hit != 'true'
