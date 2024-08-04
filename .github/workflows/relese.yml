@@ -4,12 +4,13 @@ name: Build and Relese Manuspect App
 permissions: write-all
 
 on:
-  push:
-    branches:
-      - build-4
+  # push:
+  #   branches:
+  #     - build-4
   pull_request:
     branches:
-      - build-4
+      # - build-4
+      - staging
 
 jobs:
   build:
@@ -46,8 +47,11 @@ jobs:
         $date = Get-Date -Format "yyyyMMddHHmmss"
         $tagName = "build-${{ env.RELEASE_VERSION }}-$date"
         echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
+        git checkout -b temp-branch-$date
         git tag $env:RELEASE_TAG
         git push origin $env:RELEASE_TAG
+        git checkout -
+        git branch -D temp-branch-$date
 
 
     - name: Create Release
