@@ -4,13 +4,15 @@ name: Build and Relese Manuspect App
 permissions: write-all
 
 on:
-  # push:
-  #   branches:
-  #     - build-4
+  push:
+    branches:
+      - build-4
+      - staging
   pull_request:
     branches:
-      # - build-4
+      - build-4
       - staging
+
 
 jobs:
   build:
@@ -22,7 +24,6 @@ jobs:
       TAG_NAME: nightly
       RELEASE_VERSION: 0.1.0
       RELEASE_PATH: my_app/rust
-      # RELEASE_PATH: build/windows/x64/runner/Release
 
 
     steps:
@@ -30,6 +31,39 @@ jobs:
       uses: actions/checkout@v3
 
   
+    - name: Restore cached Rust and Flutter  dependencies
+      id: cache-deps-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${{ env.VCPKG_ROOT }}/archives
+          ~/.cargo/bin/
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target/
+          ~/.flutter
+          ~/AppData/Local/Pub/Cache
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-deps-
+
+
+    - name: Save Rust and Flutter dependencies
+      id: cache-deps-save
+      if: steps.cache-deps-restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ${{ env.VCPKG_ROOT }}/archives
+          ~/.cargo/bin/
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target/
+          ~/.flutter
+          ~/AppData/Local/Pub/Cache
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.yaml') }}
+
+
     - name: Create a zip file of the folder
       run: |
         Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}/manuspect_app.zip
