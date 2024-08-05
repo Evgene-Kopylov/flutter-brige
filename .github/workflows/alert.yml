@@ -38,6 +38,6 @@ jobs:
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: [${{ github.event.repository.name }}]
             \nURL: [${{ github.event.pull_request.html_url}}]\",
-            "parse_mode": "Markdown"
+            \"parse_mode\": \"Markdown\"
             }" \
-            -d "parse_mode='Markdown'" https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
+            https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
