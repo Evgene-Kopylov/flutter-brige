@@ -37,7 +37,6 @@ jobs:
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: [${{ github.event.repository.name }}]
-            \nURL: <a href='${{ github.event.pull_request.html_url}}'>sss</a>]
+            \nURL: [${{ github.event.pull_request.html_url}}]
             \"}" \
-            -d "parse_mode='HTML'" \
-            https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
+            -d "parse_mode='Markdown'" https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
