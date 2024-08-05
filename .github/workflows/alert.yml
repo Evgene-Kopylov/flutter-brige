@@ -19,8 +19,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
 
       - name: Send Telegram Notification
          
@@ -39,7 +41,8 @@ jobs:
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"New PR to main!
             \nAuthor: ${{ github.event.pull_request.user.login }}
-            \nSource branch: [${{ github.event.repository.name }}]
+            \nRepository: [${{ github.event.repository.name }}]
+            \nSource branch: [${{ steps.extract_branch }}]
             \nTitle: [${{ github.event.pull_request.title }}]
             \nCommit short SHA: [$PR_COMMIT_SHORT]
             \nURL: [$PR_URL]
