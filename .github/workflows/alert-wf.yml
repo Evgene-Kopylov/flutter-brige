@@ -1,9 +1,10 @@
 name: Notify on PR to main
 
 on:
-    pull_request:
-      branches:
-        - main
+  workflow_run:
+    workflows: ["Short Workflow"]
+    types:
+      - completed
 
 env:
     TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
@@ -29,7 +30,7 @@ jobs:
           curl -X POST -H "Content-Type: application/json" \
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
-            \"text\": \"PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+            \"text\": \"PR [${{ github.workflow.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
             \nАвтор: ${{ github.event.pull_request.user.login }}
             \",
