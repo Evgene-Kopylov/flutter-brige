@@ -7,10 +7,12 @@ on:
   push:
     branches:
       - build-4
+      - staging
   pull_request:
     branches:
       - build-4
       - staging
+
 
 jobs:
   build:
@@ -28,7 +30,46 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+      
+    - name: Determine cache key
+      id: cache-key
+      run: |
+        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.toml', '**/pubspec.yaml') }}" >> $env:GITHUB_ENV
+
   
+    - name: Restore cached Rust and Flutter  dependencies
+      id: cache-deps-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${{ env.VCPKG_ROOT }}/archives
+          ~/.cargo/bin/
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target/
+          ~/.flutter
+          ~/AppData/Local/Pub/Cache
+        key: ${{ env.CACHE_KEY }}
+        restore-keys: |
+          ${{ runner.os }}-deps-
+
+    
+    - name: Save Rust and Flutter dependencies
+      id: cache-deps-save
+      if: steps.cache-deps-restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ${{ env.VCPKG_ROOT }}/archives
+          ~/.cargo/bin/
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target/
+          ~/.flutter
+          ~/AppData/Local/Pub/Cache
+        key: ${{ env.CACHE_KEY }}
+
+
     - name: Create a zip file of the folder
       run: |
         Compress-Archive -Path ${{ env.RELEASE_PATH }}* -DestinationPath ${{ env.RELEASE_PATH }}/manuspect_app.zip

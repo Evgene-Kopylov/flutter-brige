@@ -1,0 +1,54 @@
+name: Notify on PR to main
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+
+on:
+    push:
+      branches:
+        - build-4
+        - staging
+    pull_request:
+      branches:
+        - build-4
+        - staging
+
+env:
+    TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
+    TELEGRAM_CHAT_MR: -4245933292
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Send Telegram Notification
+         
+        run: |
+          PR_AUTHOR=$(jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH)
+          PR_TITLE=$(jq -r '.pull_request.title' $GITHUB_EVENT_PATH)
+          PR_URL=$(jq -r '.pull_request.html_url' $GITHUB_EVENT_PATH)
+          PR_SOURCE_BRANCH=$(jq -r '.pull_request.head.ref' $GITHUB_EVENT_PATH)
+          PR_COMMIT=$(jq -r '.pull_request.head.sha' $GITHUB_EVENT_PATH)
+          PR_COMMIT_SHORT=$(echo $PR_COMMIT | cut -c1-7)
+
+
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{
+            \"chat_id\": \"$TELEGRAM_CHAT_MR\",
+            \"text\": \"New PR to main!
+            \nAuthor: [${{ github.event.pull_request.user.login }}]
+            \nAuthor login: [$PR_AUTHOR_LOGIN]
+            \nAuthor login: [$PR_AUTHOR_NAME]
+            \nSource branch: [$${{ github.event.pull_request.head.ref }}]
+            \nCommit: [$PR_TITLE]
+            \nCommit short SHA: [$PR_COMMIT_SHORT]
+            \nURL: [$PR_URL]
+            \GITHUB_STEP_SUMMARY: [$GITHUB_STEP_SUMMARY]
+            \"}" \
+            https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
