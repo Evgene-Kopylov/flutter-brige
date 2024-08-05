@@ -3,9 +3,8 @@ name: Notify on PR to main
 
 on:
   workflow_run:
-    workflows: ["Short_Workflow"]
-    types:
-      - completed
+    workflows: [Short_Workflow]
+    types: [completed]
 
 
 

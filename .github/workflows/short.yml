@@ -2,9 +2,9 @@ name: Short_Workflow
 
 
 on:
-    pull_request:
-        branches:
-          - staging
+  pull_request:
+    branches:
+      - staging
 
 
 jobs:
