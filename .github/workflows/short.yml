@@ -19,3 +19,30 @@ jobs:
 
       - name: sleep 2
         run: sleep 2
+
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+
+      - name: Send Telegram Notification
+            
+        run: |
+            PR_URL=$(jq -r '.pull_request.html_url' $GITHUB_EVENT_PATH)
+
+
+            curl -X POST -H "Content-Type: application/json" \
+            -d "{
+            \"chat_id\": \"$TELEGRAM_CHAT_MR\",
+            \"text\": \"PR > [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+            \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
+            \nАвтор: ${{ github.event.pull_request.user.login }}
+            \",
+            \"parse_mode\": \"Markdown\"
+            }" \
+            https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
