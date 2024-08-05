@@ -3,7 +3,7 @@ name: Notify on PR to main
 on:
     pull_request:
       branches:
-        - staging
+        - inactive
 
 env:
     TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
