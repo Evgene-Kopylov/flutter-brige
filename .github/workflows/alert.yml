@@ -35,7 +35,7 @@ jobs:
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
-            \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  (${{ github.event.repository.name }})
+            \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
             \nАвтор: ${{ github.event.pull_request.user.login }}
             \",
             \"parse_mode\": \"Markdown\"
