@@ -39,6 +39,6 @@ jobs:
             \nSource branch: [${{ steps.extract_branch.outputs.branch }}]
             \nTitle: [${{ github.event.pull_request.title }}]
             \nURL: [$PR_URL]
-            \nURL: [${{ github.event.pull_request.url}}]
+            \nURL: [${{ github.event.pull_request.html_url}}]
             \"}" \
             https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
