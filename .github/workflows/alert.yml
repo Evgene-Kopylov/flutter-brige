@@ -37,7 +37,7 @@ jobs:
             \"text\": \"PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
             \nАвтор: ${{ github.event.pull_request.user.login }}
-            \nАвтор: ${{ github.event.head_commit.message }}
+            \nАвтор: ${{ github.event.after }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
