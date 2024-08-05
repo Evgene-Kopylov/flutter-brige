@@ -42,7 +42,7 @@ jobs:
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"New PR to main!
-            \nAuthor: [$PR_AUTHOR]
+            \nAuthor: [$${{ github.event.pull_request.user.login }}]
             \nAuthor login: [$PR_AUTHOR_LOGIN]
             \nAuthor login: [$PR_AUTHOR_NAME]
             \nSource branch: [$PR_SOURCE_BRANCH]
