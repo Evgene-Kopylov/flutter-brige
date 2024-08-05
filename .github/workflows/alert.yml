@@ -39,4 +39,5 @@ jobs:
             \nRepository: [${{ github.event.repository.name }}]
             \nURL: [${{ github.event.pull_request.html_url}}]
             \"}" \
+            -d "parse_mode='Markdown'" \
             https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
