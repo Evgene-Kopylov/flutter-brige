@@ -3,10 +3,10 @@ name: Build Manuspect App
 on:
   push:
     branches:
-      - build_all
+      - build-3
   pull_request:
     branches:
-      - build_all
+      - build-3
 
 jobs:
   build:
@@ -14,6 +14,7 @@ jobs:
 
     env:
       VCPKG_ROOT: C:\vcpkg
+      
 
     steps:
     - name: Checkout repository
@@ -75,8 +76,35 @@ jobs:
       run: flutter build windows --release
       working-directory: my_app
 
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v3
+    - name: Create unique tag
+      id: create_tag
+      run: |
+        $date = Get-Date -Format "yyyyMMddHHmmss"
+        $tagName = "build-${{ env.RELEASE_VERSION }}-$date"
+        echo "RELEASE_TAG=$tagName" >> $env:GITHUB_ENV
+        git tag -a $env:RELEASE_TAG
+        git push origin $env:RELEASE_TAG
+
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        name: manuspect-app-windows
-        path: my_app\build\windows\runner\Release
+        tag_name: ${{ env.RELEASE_TAG }}
+        release_name: ${{ env.RELEASE_VERSION }}-${{ env.TAG_NAME }}
+        draft: false
+        prerelease: false
+
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: build\windows\x64\runner\Release\my_app.exe
+        asset_name: my_app.exe
+        asset_content_type: application/octet-stream
