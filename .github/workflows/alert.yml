@@ -25,10 +25,6 @@ jobs:
         id: extract_branch
 
 
-      - name: Get Head Commit Message
-        id: get_head_commit_message
-        run: echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
-
       - name: Send Telegram Notification
          
         run: |
@@ -42,7 +38,7 @@ jobs:
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: ${{ github.event.repository.name }}
-            \nHead commit MSG:  ${{ steps.get_head_commit_message.outputs.headCommitMsg }}
+            \nHead commit MSG:  ${{ github.event.pull_request.head.label }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
