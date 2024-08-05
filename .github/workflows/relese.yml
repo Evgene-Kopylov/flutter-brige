@@ -6,12 +6,12 @@ permissions: write-all
 on:
   push:
     branches:
-      # - build-4
-      - staging
+      # - build-7
+      - release
   pull_request:
     branches:
       # - build-4
-      - staging
+      - release
 
 
 jobs:
