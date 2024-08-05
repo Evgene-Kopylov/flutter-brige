@@ -25,10 +25,8 @@ jobs:
 
       - name: Send Telegram Notification
         env:
-        #   TELEGRAM_BOT: ${{ secrets.TELEGRAM_BOT }}
           TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
-        #   TELEGRAM_CHAT_MR: ${{ secrets.TELEGRAM_CHAT_MR }}
-          TELEGRAM_CHAT_MR: -4245933292
+          TELEGRAM_CHAT_MR: -4245933292          
         run: |
           PR_AUTHOR=$(jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH)
           PR_TITLE=$(jq -r '.pull_request.title' $GITHUB_EVENT_PATH)
@@ -37,11 +35,16 @@ jobs:
           PR_COMMIT=$(jq -r '.pull_request.head.sha' $GITHUB_EVENT_PATH)
           PR_COMMIT_SHORT=$(echo $PR_COMMIT | cut -c1-7)
 
+          PR_AUTHOR_LOGIN=$(jq --raw-output .user.login pr_info.json)
+          PR_AUTHOR_NAME=$(jq --raw-output .user.name pr_info.json)
+
           curl -X POST -H "Content-Type: application/json" \
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"New PR to main!
             \nAuthor: [$PR_AUTHOR]
+            \nAuthor login: [$PR_AUTHOR_LOGIN]
+            \nAuthor login: [$PR_AUTHOR_NAME]
             \nSource branch: [$PR_SOURCE_BRANCH]
             \nCommit: [$PR_TITLE]
             \nCommit short SHA: [$PR_COMMIT_SHORT]
