@@ -33,12 +33,10 @@ jobs:
           curl -X POST -H "Content-Type: application/json" \
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
-            \"text\": \"PR **${{ github.event.pull_request.base.ref }}** <-- **${{ steps.extract_branch.outputs.branch }}**
-            \ntarget: ${{ github.event.pull_request.base.ref }}
+            \"text\": \"Pull Request \"${{ github.event.pull_request.title }}\"
+            \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: [${{ github.event.repository.name }}]
-            \nSource branch: [${{ steps.extract_branch.outputs.branch }}]
-            \nTitle: [${{ github.event.pull_request.title }}]
             \nURL: [${{ github.event.pull_request.html_url}}]
             \"}" \
             https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
