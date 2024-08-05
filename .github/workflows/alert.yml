@@ -39,6 +39,8 @@ jobs:
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: ${{ github.event.repository.name }}
             \nHead commit MSG:  ${{ github.event.pull_request.head.label }}
+            \nHead commit MSG:  ${{ github.event.pull_request.comments }}
+            \nHead commit MSG:  ${{ github.event.pull_request.head.label }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
