@@ -34,7 +34,7 @@ jobs:
     - name: Determine cache key
       id: cache-key
       run: |
-        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.lock', '**/pubspec.lock') }}" >> $env:GITHUB_ENV
+        echo "CACHE_KEY=${{ runner.os }}-deps-${{ hashFiles('**/Cargo.toml', '**/pubspec.yaml') }}" >> $env:GITHUB_ENV
 
   
     - name: Restore cached Rust and Flutter  dependencies
