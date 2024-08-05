@@ -40,7 +40,7 @@ jobs:
             \nRepository: ${{ github.event.repository.name }}
             \nHead commit MSG:  ${{ github.event.pull_request.head.label }}
             \nHead commit MSG:  ${{ github.event.pull_request.comments }}
-            \nHead commit MSG:  ${{ github.event.pull_request.head.label }}
+            \nHead commit MSG:  ${{ github.event.pull_request.commits }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
