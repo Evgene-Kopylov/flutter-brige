@@ -42,7 +42,7 @@ jobs:
             \"text\": \"New PR to main!
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: [${{ github.event.repository.name }}]
-            \nSource branch: [${{ steps.extract_branch }}]
+            \nSource branch: [${{ steps.extract_branch.outputs.branch }}]
             \nTitle: [${{ github.event.pull_request.title }}]
             \nCommit short SHA: [$PR_COMMIT_SHORT]
             \nURL: [$PR_URL]
