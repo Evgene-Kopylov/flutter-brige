@@ -49,5 +49,6 @@ jobs:
             \nCommit: [$PR_TITLE]
             \nCommit short SHA: [$PR_COMMIT_SHORT]
             \nURL: [$PR_URL]
+            \GITHUB_STEP_SUMMARY: [$GITHUB_STEP_SUMMARY]
             \"}" \
             https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
