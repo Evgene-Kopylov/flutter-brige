@@ -27,13 +27,7 @@ jobs:
       - name: Send Telegram Notification
          
         run: |
-          PR_AUTHOR=$(jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH)
-          PR_TITLE=$(jq -r '.pull_request.title' $GITHUB_EVENT_PATH)
           PR_URL=$(jq -r '.pull_request.html_url' $GITHUB_EVENT_PATH)
-          PR_SOURCE_BRANCH=$(jq -r '.pull_request.head.ref' $GITHUB_EVENT_PATH)
-          PR_COMMIT=$(jq -r '.pull_request.head.sha' $GITHUB_EVENT_PATH)
-          PR_COMMIT_SHORT=$(echo $PR_COMMIT | cut -c1-7)
-
 
 
           curl -X POST -H "Content-Type: application/json" \
@@ -44,8 +38,7 @@ jobs:
             \nRepository: [${{ github.event.repository.name }}]
             \nSource branch: [${{ steps.extract_branch.outputs.branch }}]
             \nTitle: [${{ github.event.pull_request.title }}]
-            \nCommit short SHA: [$PR_COMMIT_SHORT]
             \nURL: [$PR_URL]
-            \GITHUB_STEP_SUMMARY: [$GITHUB_STEP_SUMMARY]
+            \nURL: [${{ github.event.pull_request.url}}]
             \"}" \
             https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
