@@ -7,12 +7,16 @@ on:
     types:
       - completed
 
-env:
-    TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
-    TELEGRAM_CHAT_MR: -4245933292
+
 
 jobs:
   notify:
+
+    env:
+        TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
+        TELEGRAM_CHAT_MR: -4245933292
+
+
     runs-on: ubuntu-latest
 
     steps:
