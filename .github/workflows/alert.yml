@@ -33,7 +33,7 @@ jobs:
           curl -X POST -H "Content-Type: application/json" \
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
-            \"text\": \"PR `${{ github.event.pull_request.base.ref }}` <-- `${{ steps.extract_branch.outputs.branch }}`
+            \"text\": \"PR ${{ github.event.pull_request.base.ref }} <-- `${{ steps.extract_branch.outputs.branch }}
             \ntarget: ${{ github.event.pull_request.base.ref }}
             \nAuthor: ${{ github.event.pull_request.user.login }}
             \nRepository: [${{ github.event.repository.name }}]
