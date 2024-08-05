@@ -44,7 +44,7 @@ jobs:
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"New PR to main!
             \nAuthor: ${{ github.event.pull_request.user.login }}
-            \nSource branch: [$${{ github.event.pull_request.head.label }}]
+            \nSource branch: [${{ github.event.pull_request.head.label }}]
             \nCommit: [$PR_TITLE]
             \nCommit short SHA: [$PR_COMMIT_SHORT]
             \nURL: [$PR_URL]
