@@ -12,7 +12,7 @@ on:
     #     - staging
     pull_request:
       branches:
-        - build-4
+        # - build-4
         - staging
 
 env:
