@@ -21,8 +21,15 @@ jobs:
         run: sleep 2
 
   notify:
+
+    env:
+        TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
+        TELEGRAM_CHAT_MR: -4245933292
+
     runs-on: ubuntu-latest
+
     needs: short_job
+    
     steps:
       - name: Extract branch name
         shell: bash
