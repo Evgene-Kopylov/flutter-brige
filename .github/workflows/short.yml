@@ -45,10 +45,11 @@ jobs:
           curl -X POST -H "Content-Type: application/json" \
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
-            \"text\": \"PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+            \"text\": \"Pull Request
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
             \nАвтор: ${{ github.event.pull_request.user.login }}
-            \n${{ env.MENTION }}
+            \nТема: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+            \nПриглашение на ревью для ${{ env.MENTION }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
