@@ -46,10 +46,10 @@ jobs:
             -d "{
             \"chat_id\": \"$TELEGRAM_CHAT_MR\",
             \"text\": \"Pull Request
-            \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
-            \nАвтор: ${{ github.event.pull_request.user.login }}
-            \nТема: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
-            \nПриглашение на ревью для ${{ env.MENTION }}
+            ${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
+            Автор: ${{ github.event.pull_request.user.login }}
+            Тема: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+            Приглашение на ревью для ${{ env.MENTION }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
