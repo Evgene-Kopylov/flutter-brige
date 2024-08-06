@@ -48,9 +48,9 @@ jobs:
           \"text\": \"Pull Request [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
           
           ${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
-          Автор: ${{ github.event.pull_request.user.login }}
+          by ${{ github.event.pull_request.user.login }}
           
-          Приглашение на ревью ${{ env.MENTION }}
+          Reviewer ${{ env.MENTION }}
           \",
           \"parse_mode\": \"Markdown\"
           }" \
