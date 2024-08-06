@@ -9,6 +9,7 @@ on:
 env:
     TELEGRAM_BOT: 7065918905:AAHa9mJCuCqA8DNh_-fYfwVcIZUdQqx2DR4
     TELEGRAM_CHAT_MR: -4245933292
+    MENTION: \@EvgeneKopylov  
 
 
 jobs:
@@ -21,8 +22,6 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
 
-      - name: sleep 2
-        run: sleep 2
 
   notify:
     
@@ -49,6 +48,7 @@ jobs:
             \"text\": \"PR [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
             \n${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
             \nАвтор: ${{ github.event.pull_request.user.login }}
+            \n${{ env.MENTION }}
             \",
             \"parse_mode\": \"Markdown\"
             }" \
