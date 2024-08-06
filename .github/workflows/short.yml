@@ -43,14 +43,14 @@ jobs:
 
 
           curl -X POST -H "Content-Type: application/json" \
-            -d "{
-            \"chat_id\": \"$TELEGRAM_CHAT_MR\",
-            \"text\": \"Pull Request
-            ${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
-            Автор: ${{ github.event.pull_request.user.login }}
-            Тема: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
-            Приглашение на ревью для ${{ env.MENTION }}
-            \",
-            \"parse_mode\": \"Markdown\"
-            }" \
-            https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
+          -d "{
+          \"chat_id\": \"$TELEGRAM_CHAT_MR\",
+          \"text\": \"Pull Request [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url}})
+          
+          ${{ github.event.pull_request.base.ref }} <-- ${{ steps.extract_branch.outputs.branch }}  ( ${{ github.event.repository.name }} )
+          Автор: ${{ github.event.pull_request.user.login }}
+          Приглашение на ревью для ${{ env.MENTION }}
+          \",
+          \"parse_mode\": \"Markdown\"
+          }" \
+          https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage
